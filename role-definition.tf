@@ -7,7 +7,7 @@ resource "azurerm_role_definition" "roles" {
   assignable_scopes = try(each.value.assignable_scopes, null)
 
   dynamic "permissions" {
-    for_each = lookup(var.role_definition_settings, "permissions", {})
+    for_each = try(each.value.permissions)
     content {
       actions          = lookup(tolist(permissions.value, "actions"), null)
       not_actions      = lookup(tolist(permissions.value, "not_actions"), null)

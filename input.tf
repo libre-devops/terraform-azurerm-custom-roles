@@ -10,11 +10,6 @@ variable "create_role" {
   default     = false
 }
 
-variable "location" {
-  description = "The location for this resource to be put in"
-  type        = string
-}
-
 variable "role_assignments" {
   type = list(object({
     role_assignment_name = string
@@ -42,6 +37,12 @@ variable "role_definitions" {
     name        = string
     description = string
     scope       = list(string)
+    permissions = object({
+      actions          = optional(list(string))
+      not_actions      = optional(list(string))
+      data_actions     = optional(list(string))
+      not_data_actions = optional(list(string))
+    })
 
   }))
 }
