@@ -1,13 +1,13 @@
-variable "identity_ids" {
-  description = "Specifies a list of user managed identity ids to be assigned to the VM."
-  type        = list(string)
-  default     = []
+variable "assign_role" {
+  type        = bool
+  description = "Whether or not a role should be assigned to a scope"
+  default     = true
 }
 
-variable "identity_type" {
-  description = "The Managed Service Identity Type of this Virtual Machine."
-  type        = string
-  default     = ""
+variable "create_role" {
+  type        = bool
+  description = "Whether a role definition should be created"
+  default     = false
 }
 
 variable "location" {
@@ -15,13 +15,35 @@ variable "location" {
   type        = string
 }
 
-variable "rg_name" {
-  description = "The name of the resource group, this module does not create a resource group, it is expecting the value of a resource group already exists"
-  type        = string
-  validation {
-    condition     = length(var.rg_name) > 1 && length(var.rg_name) <= 24
-    error_message = "Resource group name is not valid."
-  }
+variable "role_assignments" {
+  type = list(object({
+    role_assignment_name = string
+  }))
+  description = "The list object of role assignments to be created"
+  default     = null
+}
+
+variable "role_definition_settings" {
+  type = map(object({
+    permissions = object({
+      actions          = list(string)
+      not_actions      = list(string)
+      data_actions     = list(string)
+      not_data_actions = list(string)
+    })
+  }))
+
+  description = "The settings object for role definition settings"
+  default     = null
+}
+
+variable "role_definitions" {
+  type = list(object({
+    name        = string
+    description = string
+    scope       = list(string)
+
+  }))
 }
 
 variable "tags" {
