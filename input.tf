@@ -10,41 +10,29 @@ variable "create_role" {
   default     = false
 }
 
-variable "role_assignments" {
+variable "roles" {
   type = list(object({
-    role_assignment_name = string
+    role_assignment_name                                   = string
+    role_assignment_scope                                  = string
+    role_assignment_assignee_principal_id                  = string
+    role_assignment_description                            = optional(string)
+    role_assignment_condition                              = optional(string)
+    role_assignment_condition_version                      = optional(number)
+    role_assignment_delegated_managed_identity_resource_id = optional(string)
+
+    role_definition_id                = optional(string)
+    role_definition_name              = string
+    role_definition_description       = optional(string)
+    role_definition_scope             = string
+    role_definition_assignable_scopes = optional(list(string), [])
+    role_definition_permissions = optional(list(object({
+      actions          = optional(list(string), [])
+      not_actions      = optional(list(string), [])
+      data_actions     = optional(list(string), [])
+      not_data_actions = optional(list(string), [])
+    })), [])
   }))
-  description = "The list object of role assignments to be created"
-  default     = null
-}
-
-variable "role_definition_settings" {
-  type = map(object({
-    permissions = object({
-      actions          = list(string)
-      not_actions      = list(string)
-      data_actions     = list(string)
-      not_data_actions = list(string)
-    })
-  }))
-
-  description = "The settings object for role definition settings"
-  default     = null
-}
-
-variable "role_definitions" {
-  type = list(object({
-    name        = string
-    description = string
-    scope       = list(string)
-    permissions = object({
-      actions          = optional(list(string))
-      not_actions      = optional(list(string))
-      data_actions     = optional(list(string))
-      not_data_actions = optional(list(string))
-    })
-
-  }))
+  description = "The object needed to create and assign custom roles"
 }
 
 variable "tags" {
