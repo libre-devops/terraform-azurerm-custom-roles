@@ -1,6 +1,6 @@
 ```hcl
 module "roles" {
-  source = "../../terraform-azurerm-custom-roles"
+  source = "registry.terraform.io/libre-devops/custom-roles/azurerm"
 
   create_role = true
   assign_role = true
