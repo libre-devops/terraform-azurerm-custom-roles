@@ -12,18 +12,18 @@ variable "create_role" {
 
 variable "roles" {
   type = list(object({
-    role_assignment_name                                   = string
-    role_assignment_scope                                  = string
-    role_assignment_assignee_principal_id                  = string
+    role_assignment_name                                   = optional(string)
+    role_assignment_scope                                  = optional(string)
+    role_assignment_assignee_principal_id                  = optional(string)
     role_assignment_description                            = optional(string)
     role_assignment_condition                              = optional(string)
     role_assignment_condition_version                      = optional(number)
     role_assignment_delegated_managed_identity_resource_id = optional(string)
 
     role_definition_id                = optional(string)
-    role_definition_name              = string
+    role_definition_name              = optional(string)
     role_definition_description       = optional(string)
-    role_definition_scope             = string
+    role_definition_scope             = optional(string)
     role_definition_assignable_scopes = optional(list(string), [])
     role_definition_permissions = optional(list(object({
       actions          = optional(list(string), [])
